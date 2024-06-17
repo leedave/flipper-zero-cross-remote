@@ -105,18 +105,19 @@ bool xremote_transmit_input(InputEvent* event, void* context) {
     XRemoteTransmit* instance = context;
     if(event->type == InputTypeRelease) {
         switch(event->key) {
-            case InputKeyBack:
+        case InputKeyBack:
             with_view_model(
                 instance->view,
                 XRemoteTransmitModel * model,
                 {
                     UNUSED(model);
-                    instance->callback(XRemoteCustomEventViewTransmitterSendStop, instance->context);
+                    instance->callback(
+                        XRemoteCustomEventViewTransmitterSendStop, instance->context);
                 },
                 true);
             break;
-            default:
-                break;
+        default:
+            break;
         }
     }
     return true;

@@ -173,8 +173,7 @@ bool xremote_scene_transmit_on_event(void* context, SceneManagerEvent event) {
             xremote_transmit_get_view(app->xremote_transmit),
             void* model,
             { UNUSED(model); },
-            true
-        );
+            true);
         if(app->state_notifications == SubGhzNotificationStateTx && app->led == 1) {
             //blink for subghz
         }
