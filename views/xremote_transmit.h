@@ -22,3 +22,5 @@ void xremote_transmit_free(XRemoteTransmit* instance);
 View* xremote_transmit_get_view(XRemoteTransmit* instance);
 
 void xremote_transmit_enter(void* context);
+
+bool xremote_transmit_input(InputEvent* event, void* context);

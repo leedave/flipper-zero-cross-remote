@@ -100,12 +100,36 @@ void xremote_transmit_draw(Canvas* canvas, XRemoteTransmitModel* model) {
     }
 }
 
+bool xremote_transmit_input(InputEvent* event, void* context) {
+    furi_assert(context);
+    XRemoteTransmit* instance = context;
+    if(event->type == InputTypeRelease) {
+        switch(event->key) {
+        case InputKeyBack:
+            with_view_model(
+                instance->view,
+                XRemoteTransmitModel * model,
+                {
+                    UNUSED(model);
+                    instance->callback(
+                        XRemoteCustomEventViewTransmitterSendStop, instance->context);
+                },
+                true);
+            break;
+        default:
+            break;
+        }
+    }
+    return true;
+}
+
 XRemoteTransmit* xremote_transmit_alloc() {
     XRemoteTransmit* instance = malloc(sizeof(XRemoteTransmit));
     instance->view = view_alloc();
     view_allocate_model(instance->view, ViewModelTypeLocking, sizeof(XRemoteTransmitModel));
     view_set_context(instance->view, instance);
     view_set_draw_callback(instance->view, (ViewDrawCallback)xremote_transmit_draw);
+    view_set_input_callback(instance->view, xremote_transmit_input);
     view_set_enter_callback(instance->view, xremote_transmit_enter);
 
     with_view_model(

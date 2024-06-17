@@ -21,10 +21,8 @@ void xremote_scene_xr_list_edit_on_enter(void* context) {
 
     if(success) {
         //Load Remote Button View
-        //scene_manager_next_scene(app->scene_manager, XRemoteSceneWip);
         scene_manager_next_scene(app->scene_manager, XRemoteSceneXrListEditItem);
     } else {
-        //scene_manager_next_scene(app->scene_manager, XRemoteSceneWip);
         scene_manager_previous_scene(app->scene_manager);
     }
 }

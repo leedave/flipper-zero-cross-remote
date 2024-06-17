@@ -1,3 +1,6 @@
+## 2.6
+- Fix for conflict wiht SubGHz folder variable in 0.103.1-rc
+
 ## 2.5
 - Back button on info screen now reacts the same as ok button
 - Fixed crash on exit in fw 0.100.3

@@ -41,11 +41,6 @@ bool xremote_scene_ir_timer_on_event(void* context, SceneManagerEvent event) {
         if(item->time > 9999) {
             item->time = 9999;
         }
-        //app->first_station = atoi(app->text_store[0]);
-        /*if(app->first_station > app->max_station) {
-            app->first_station = app->max_station;
-            snprintf(app->text_store[0], 5, "%lu", app->first_station);
-        }*/
         scene_manager_previous_scene(app->scene_manager);
         return true;
     }
