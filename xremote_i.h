@@ -23,9 +23,6 @@
 #include <gui/modules/button_menu.h>
 #include <gui/modules/button_panel.h>
 #include <gui/modules/variable_item_list.h>
-
-//#include <lib/subghz/protocols/protocol_items.h> //Not found
-
 #include <input/input.h>
 #include <notification/notification_messages.h>
 
@@ -53,13 +50,12 @@
 #define XREMOTE_TEXT_STORE_SIZE 128
 #define XREMOTE_MAX_ITEM_NAME_LENGTH 22
 #define XREMOTE_MAX_REMOTE_NAME_LENGTH 22
-#define XREMOTE_VERSION "2.5"
+#define XREMOTE_VERSION "2.6"
 
 #define INFRARED_APP_EXTENSION ".ir"
 #define INFRARED_APP_FOLDER ANY_PATH("infrared")
 
 #define SUBGHZ_APP_EXTENSION ".sub"
-#define SUBGHZ_APP_FOLDER ANY_PATH("subghz")
 
 #define TAG "XRemote"
 

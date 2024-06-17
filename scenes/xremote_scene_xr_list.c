@@ -26,7 +26,6 @@ void xremote_scene_xr_list_on_enter(void* context) {
 
     if(success) {
         //Load Remote Button View
-        //scene_manager_next_scene(app->scene_manager, XRemoteSceneWip);
         scene_manager_next_scene(app->scene_manager, XRemoteSceneTransmit);
     } else {
         //scene_manager_next_scene(app->scene_manager, XRemoteSceneWip);
