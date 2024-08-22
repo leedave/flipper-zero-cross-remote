@@ -19,6 +19,7 @@
 #include <gui/modules/loading.h>
 #include <gui/modules/submenu.h>
 #include <gui/modules/dialog_ex.h>
+#include <gui/modules/number_input.h>
 #include <gui/modules/text_input.h>
 #include <gui/modules/button_menu.h>
 #include <gui/modules/button_panel.h>

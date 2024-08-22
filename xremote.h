@@ -53,6 +53,7 @@ typedef struct {
     char text_store[XREMOTE_TEXT_STORE_NUM][XREMOTE_TEXT_STORE_SIZE + 1];
     SubGhz* subghz;
     IntInput* int_input;
+    NumberInput* number_input;
 } XRemote;
 
 typedef enum {
@@ -67,6 +68,7 @@ typedef enum {
     XRemoteViewIdStack,
     XRemoteViewIdTextInput,
     XRemoteViewIdIntInput,
+    XRemoteViewIdNumberInput,
     XRemoteViewIdTransmit,
     XRemoteViewIdPauseSet,
 } XRemoteViewId;
