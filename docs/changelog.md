@@ -1,3 +1,7 @@
+## 2.7
+- Replaced custom keyboard for timing with new number_input from Firmware
+- Requires minimum OFW version 0.105.0 or custom firmware based on this
+
 ## 2.6
 - Fix for conflict wiht SubGHz folder variable in 0.103.1-rc
 
