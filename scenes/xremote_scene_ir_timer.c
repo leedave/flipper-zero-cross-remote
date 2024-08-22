@@ -18,15 +18,10 @@ void xremote_scene_ir_timer_on_enter(void* context) {
     int32_t max_value = 9999;
     snprintf(str, sizeof(str), "Transmit in ms (%ld - %ld)", min_value, max_value);
     CrossRemoteItem* item = xremote_cross_remote_get_item(app->cross_remote, app->edit_item);
-    
+
     number_input_set_header_text(number_input, str);
     number_input_set_result_callback(
-        number_input,
-        xremote_scene_ir_timer_callback,
-        context,
-        item->time,
-        min_value,
-        max_value);
+        number_input, xremote_scene_ir_timer_callback, context, item->time, min_value, max_value);
 
     view_dispatcher_switch_to_view(app->view_dispatcher, XRemoteViewIdNumberInput);
 }
