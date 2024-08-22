@@ -71,11 +71,6 @@ XRemote* xremote_app_alloc() {
 
     app->text_input = text_input_alloc();
 
-    // Custom made int keyboard
-    app->int_input = int_input_alloc();
-    view_dispatcher_add_view(
-        app->view_dispatcher, XRemoteViewIdIntInput, int_input_get_view(app->int_input));
-
     app->number_input = number_input_alloc();
     view_dispatcher_add_view(
         app->view_dispatcher, XRemoteViewIdNumberInput, number_input_get_view(app->number_input));
@@ -152,13 +147,11 @@ void xremote_app_free(XRemote* app) {
     view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdWip);
     view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdStack);
     view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdTextInput);
-    view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdIntInput);
     view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdNumberInput);
     view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdTransmit);
     view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdPauseSet);
     view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdIrRemote);
     text_input_free(app->text_input);
-    int_input_free(app->int_input);
     number_input_free(app->number_input);
     button_menu_free(app->button_menu_create);
     button_menu_free(app->button_menu_create_add);
