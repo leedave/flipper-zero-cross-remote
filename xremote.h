@@ -9,7 +9,6 @@
 #include "models/cross/xremote_cross_remote.h"
 #include "helpers/subghz/subghz_types.h"
 #include "helpers/subghz/subghz.h"
-#include "helpers/gui/int_input.h"
 #include "xremote_i.h"
 
 typedef struct SubGhz SubGhz;
@@ -52,7 +51,7 @@ typedef struct {
     bool stop_transmit;
     char text_store[XREMOTE_TEXT_STORE_NUM][XREMOTE_TEXT_STORE_SIZE + 1];
     SubGhz* subghz;
-    IntInput* int_input;
+    NumberInput* number_input;
 } XRemote;
 
 typedef enum {
@@ -66,7 +65,7 @@ typedef enum {
     XRemoteViewIdIrRemote,
     XRemoteViewIdStack,
     XRemoteViewIdTextInput,
-    XRemoteViewIdIntInput,
+    XRemoteViewIdNumberInput,
     XRemoteViewIdTransmit,
     XRemoteViewIdPauseSet,
 } XRemoteViewId;

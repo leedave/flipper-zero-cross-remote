@@ -29,8 +29,7 @@ XRemote* xremote_app_alloc() {
 
     //Scene additions
     app->view_dispatcher = view_dispatcher_alloc();
-    view_dispatcher_enable_queue(app->view_dispatcher);
-
+    
     app->scene_manager = scene_manager_alloc(&xremote_scene_handlers, app);
     view_dispatcher_set_event_callback_context(app->view_dispatcher, app);
     view_dispatcher_set_navigation_event_callback(
@@ -71,10 +70,9 @@ XRemote* xremote_app_alloc() {
 
     app->text_input = text_input_alloc();
 
-    // Custom made int keyboard
-    app->int_input = int_input_alloc();
+    app->number_input = number_input_alloc();
     view_dispatcher_add_view(
-        app->view_dispatcher, XRemoteViewIdIntInput, int_input_get_view(app->int_input));
+        app->view_dispatcher, XRemoteViewIdNumberInput, number_input_get_view(app->number_input));
 
     view_dispatcher_add_view(
         app->view_dispatcher, XRemoteViewIdTextInput, text_input_get_view(app->text_input));
@@ -148,12 +146,12 @@ void xremote_app_free(XRemote* app) {
     view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdWip);
     view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdStack);
     view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdTextInput);
-    view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdIntInput);
+    view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdNumberInput);
     view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdTransmit);
     view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdPauseSet);
     view_dispatcher_remove_view(app->view_dispatcher, XRemoteViewIdIrRemote);
     text_input_free(app->text_input);
-    int_input_free(app->int_input);
+    number_input_free(app->number_input);
     button_menu_free(app->button_menu_create);
     button_menu_free(app->button_menu_create_add);
     button_menu_free(app->button_menu_ir);

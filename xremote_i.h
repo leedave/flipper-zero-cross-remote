@@ -19,6 +19,7 @@
 #include <gui/modules/loading.h>
 #include <gui/modules/submenu.h>
 #include <gui/modules/dialog_ex.h>
+#include <gui/modules/number_input.h>
 #include <gui/modules/text_input.h>
 #include <gui/modules/button_menu.h>
 #include <gui/modules/button_panel.h>
@@ -50,7 +51,7 @@
 #define XREMOTE_TEXT_STORE_SIZE 128
 #define XREMOTE_MAX_ITEM_NAME_LENGTH 22
 #define XREMOTE_MAX_REMOTE_NAME_LENGTH 22
-#define XREMOTE_VERSION "2.6"
+#define XREMOTE_VERSION "2.7"
 
 #define INFRARED_APP_EXTENSION ".ir"
 #define INFRARED_APP_FOLDER ANY_PATH("infrared")
