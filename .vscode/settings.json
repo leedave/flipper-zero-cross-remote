@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "xremote_ir_signal.h": "c",
+        "xremote_transmit.h": "c"
+    }
+}
