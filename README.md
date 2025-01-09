@@ -29,6 +29,7 @@ Wouldn't it be nicer to simply click one button and let everything happen? This 
 - Save chained commands to a file<br>
 - Add pauses, becaue target systems are not always fast enough for multiple commands<br>
 - Run file containing chained IR & SubGhz commands<br>
+- Loop Transmissions until quit
 
 ### Settings
 - LED FX, allow the LED to blink
@@ -51,6 +52,11 @@ Then run the command:
 .\fbt launch_app APPSRC=applications_user/xremote
  ```
 The application will be compiled and copied onto your device. 
+
+## Thank you notes
+- [Willy-JL](https://github.com/Willy-JL) for distributing in Momentum Firmware
+- [Roguemaster](https://github.com/RogueMaster/flipperzero-firmware-wPlugins) for distributing in Roguemaster Firmware
+- [Miccayo](https://github.com/miccayo) for contributing the loop transmit feature
 
 ## Licensing
 This code is open-source and may be used for whatever you want to do with it. 
