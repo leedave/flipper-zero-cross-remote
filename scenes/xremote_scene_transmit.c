@@ -114,43 +114,13 @@ void xremote_scene_transmit_send_signal(void* context, CrossRemoteItem* item) {
     }
 }
 
-void xremote_scene_transmit_run_remote_inner(void* context) {
-    furi_assert(context);
-    XRemote* app = context;
-    CrossRemote* remote = app->cross_remote;
-    size_t item_count = xremote_cross_remote_get_item_count(remote);
-    for(size_t i = 0; i < item_count;) {
-        if(xremote_cross_remote_get_transmitting(remote) == XRemoteTransmittingIdle) {
-            xremote_cross_remote_set_transmitting(remote, XRemoteTransmittingStart);
-            CrossRemoteItem* item = xremote_cross_remote_get_item(remote, i);
-            xremote_scene_transmit_send_signal(app, item);
-            //furi_thread_flags_wait(0, FuriFlagWaitAny, 1000);
-        } else if(xremote_cross_remote_get_transmitting(remote) == XRemoteTransmittingStopSubghz) {
-            i++;
-            app->state_notifications = SubGhzNotificationStateIDLE;
-            app->transmitting = false;
-            subghz_txrx_stop(app->subghz->txrx);
-            xremote_scene_ir_notification_message(app, SubGhzNotificationMessageBlinkStop);
-            xremote_cross_remote_set_transmitting(remote, XRemoteTransmittingIdle);
-            //furi_thread_flags_wait(0, FuriFlagWaitAny, 1000);
-        } else if(xremote_cross_remote_get_transmitting(remote) == XRemoteTransmittingStop) {
-            i++;
-            xremote_cross_remote_set_transmitting(remote, XRemoteTransmittingIdle);
-        }
-    }
-    xremote_scene_ir_notification_message(app, InfraredNotificationMessageBlinkStop);
-
-    scene_manager_previous_scene(app->scene_manager);
-    //xremote_transmit_model_set_name(app->xremote_transmit, xremote_cross_remote_get_name(remote));
-}
-
 void xremote_scene_transmit_run_remote(void* context) {
     furi_assert(context);
     XRemote* app = context;
     CrossRemote* remote = app->cross_remote;
 
     size_t item_count = xremote_cross_remote_get_item_count(remote);
-    if (app->loopir) {
+    if (app->loop_transmit) {
         while (true) {
             for (size_t i = 0; i < item_count;) {
                 if (xremote_cross_remote_get_transmitting(remote) == XRemoteTransmittingIdle) {
