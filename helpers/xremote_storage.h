@@ -13,6 +13,7 @@
 #define XREMOTE_SETTINGS_KEY_SAVE_SETTINGS "SaveSettings"
 #define XREMOTE_SETTINGS_KEY_IR_TIMING "IRTiming"
 #define XREMOTE_SETTINGS_KEY_SG_TIMING "SGTiming"
+#define XREMOTE_SETTINGS_KEY_LOOP_TRANSMIT "LoopTransmit"
 
 void xremote_save_settings(void* context);
 void xremote_read_settings(void* context);

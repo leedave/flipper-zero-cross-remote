@@ -33,7 +33,14 @@ const uint32_t led_value[2] = {
     XRemoteLedOff,
     XRemoteLedOn,
 };
-
+const char* const loop_text[2] = {
+    "OFF",
+    "ON",
+};
+const uint32_t loop_value[2] = {
+    XRemoteLoopOff,
+    XRemoteLoopOn,
+};
 const char* const settings_text[2] = {
     "OFF",
     "ON",
@@ -70,6 +77,13 @@ static void xremote_scene_settings_set_save_settings(VariableItem* item) {
     uint8_t index = variable_item_get_current_value_index(item);
     variable_item_set_current_value_text(item, settings_text[index]);
     app->save_settings = settings_value[index];
+}
+
+static void xremote_scene_settings_set_loop(VariableItem* item) {
+    XRemote* app = variable_item_get_context(item);
+    uint8_t index = variable_item_get_current_value_index(item);
+    variable_item_set_current_value_text(item, loop_text[index]);
+    app->loop_transmit = loop_value[index];
 }
 
 static void xremote_scene_settings_set_ir_timing(VariableItem* item) {
@@ -116,10 +130,17 @@ void xremote_scene_settings_on_enter(void* context) {
 
     // LED Effects on/off
     item = variable_item_list_add(
-        app->variable_item_list, "LED FX:", 2, xremote_scene_settings_set_led, app);
+        app->variable_item_list, "LED FX", 2, xremote_scene_settings_set_led, app);
     value_index = value_index_uint32(app->led, led_value, 2);
     variable_item_set_current_value_index(item, value_index);
     variable_item_set_current_value_text(item, led_text[value_index]);
+
+    /* NEW: Loop saved command functionality */
+    item = variable_item_list_add(
+        app->variable_item_list, "Loop Transmit", 2, xremote_scene_settings_set_loop, app);
+    value_index = value_index_uint32(app->loop_transmit, loop_value, 2);
+    variable_item_set_current_value_index(item, value_index);
+    variable_item_set_current_value_text(item, loop_text[value_index]);
 
     // Save Settings to File
     item = variable_item_list_add(

@@ -42,6 +42,7 @@ typedef struct {
     uint32_t speaker;
     uint32_t led;
     uint32_t save_settings;
+    uint32_t loop_transmit;
     uint32_t edit_item;
     uint32_t ir_timing;
     char* ir_timing_char;
@@ -84,6 +85,11 @@ typedef enum {
     XRemoteLedOff,
     XRemoteLedOn,
 } XRemoteLedState;
+
+typedef enum {
+    XRemoteLoopOff,
+    XRemoteLoopOn,
+} XRemoteLoopState;
 
 typedef enum {
     XRemoteSettingsOff,
