@@ -1,3 +1,7 @@
+## 3.1
+- Bugfix to enable save on first use (thanks to WillyJL)
+- Bugfix for loop transmit when using RAW SubGHz transmissions
+
 ## 3.0
 - Added loop transmit feature (thanks to miccayo)
 - Replaced transmission counter with animations
