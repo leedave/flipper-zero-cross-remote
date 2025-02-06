@@ -203,6 +203,10 @@ int32_t xremote_app(void* p) {
 
     furi_hal_power_suppress_charge_enter();
 
+    Storage* storage = furi_record_open(RECORD_STORAGE);
+    storage_common_mkdir(storage, XREMOTE_APP_FOLDER);
+    furi_record_close(RECORD_STORAGE);
+
     view_dispatcher_run(app->view_dispatcher);
 
     xremote_save_settings(app);

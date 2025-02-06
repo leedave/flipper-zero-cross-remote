@@ -54,7 +54,7 @@ Then run the command:
 The application will be compiled and copied onto your device. 
 
 ## Thank you notes
-- [Willy-JL](https://github.com/Willy-JL) for distributing in Momentum Firmware
+- [Willy-JL](https://github.com/Willy-JL) for code contributions and distributing in Momentum Firmware
 - [Roguemaster](https://github.com/RogueMaster/flipperzero-firmware-wPlugins) for distributing in Roguemaster Firmware
 - [Miccayo](https://github.com/miccayo) for contributing the loop transmit feature
 

@@ -30,7 +30,7 @@ void xremote_save_settings(void* context) {
     }
 
     // Open File, create if not exists
-    if(!storage_common_stat(storage, XREMOTE_SETTINGS_SAVE_PATH, NULL) == FSE_OK) {
+    if(storage_common_stat(storage, XREMOTE_SETTINGS_SAVE_PATH, NULL) != FSE_OK) {
         FURI_LOG_D(
             TAG, "Config file %s is not found. Will create new.", XREMOTE_SETTINGS_SAVE_PATH);
         if(storage_common_stat(storage, CONFIG_FILE_DIRECTORY_PATH, NULL) == FSE_NOT_EXIST) {
