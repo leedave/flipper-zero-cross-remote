@@ -3,6 +3,7 @@
 #include <lib/subghz/subghz_protocol_registry.h>
 #include <applications/drivers/subghz/cc1101_ext/cc1101_ext_interconnect.h>
 #include <lib/subghz/devices/cc1101_int/cc1101_int_interconnect.h>
+#include <infrared_transmit.h>
 
 #define TAG "SubGhz"
 
@@ -24,7 +25,10 @@ static void subghz_txrx_radio_device_power_on(SubGhzTxRx* instance) {
 
 static void subghz_txrx_radio_device_power_off(SubGhzTxRx* instance) {
     UNUSED(instance);
-    if(furi_hal_power_is_otg_enabled()) furi_hal_power_disable_otg();
+    FuriHalInfraredTxPin tx_pin_detected = furi_hal_infrared_detect_tx_output();
+    if(furi_hal_power_is_otg_enabled() && tx_pin_detected == FuriHalInfraredTxPinInternal) {
+        furi_hal_power_disable_otg();
+    }
 }
 
 SubGhzTxRx* subghz_txrx_alloc(void) {
