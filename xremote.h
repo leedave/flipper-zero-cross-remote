@@ -101,3 +101,5 @@ typedef enum {
 
 void xremote_popup_closed_callback(void* context);
 void xremote_text_input_callback(void* context);
+void xremote_ir_enable_otg(XRemote* app, bool enable);
+void xremote_ir_set_tx_pin(XRemote* app);

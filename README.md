@@ -36,6 +36,8 @@ Wouldn't it be nicer to simply click one button and let everything happen? This 
 - Save settings, stores a file with your settings in it on exit
 - IR time ms, the default duration of an IR signal transmission. Individual times can be set
 - SubG. time ms, the default duration of a SubGhz signal. Only needed for Encoded signals, RAW files play until finished
+- Loop transmip, repeats the command chain until cancelled
+- External IR & 5V on GPIO, settings for external IR boards
 
 ### Limitations
 SubGhz commands will stop working if you move/rename/delete the original files on your Flipper. This is because of how the Flippers SubGhz worker expects data. 

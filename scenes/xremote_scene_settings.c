@@ -185,18 +185,16 @@ void xremote_scene_settings_on_enter(void* context) {
 
 bool xremote_scene_settings_on_event(void* context, SceneManagerEvent event) {
     XRemote* app = context;
-    UNUSED(app);
     bool consumed = false;
     if(event.type == SceneManagerEventTypeCustom) {
         const uint16_t custom_event_type = xremote_custom_menu_event_get_type(event.event);
-        const uint16_t custom_event_value = xremote_custom_menu_event_get_value(event.event);
-
-        UNUSED(custom_event_value);
+        
         if (custom_event_type == XRemoteCustomEventTypeIrGpioPinChanged) {
             variable_item_list_reset(app->variable_item_list);
             xremote_scene_settings_init(app);
+            xremote_ir_set_tx_pin(app);
         } else if(custom_event_type == XRemoteCustomEventTypeIrGpioOtgChanged) {
-
+            xremote_ir_enable_otg(app, app->ir_is_otg_enabled);
         }
     }
     return consumed;

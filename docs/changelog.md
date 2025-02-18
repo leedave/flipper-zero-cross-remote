@@ -1,3 +1,6 @@
+## 3.2
+- Added support for external IR GPIO boards, tested on IR Blaster & Masta-Blasta. 
+
 ## 3.1
 - Bugfix to enable save on first use (thanks to WillyJL)
 - Bugfix for loop transmit when using RAW SubGHz transmissions
