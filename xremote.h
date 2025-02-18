@@ -37,7 +37,7 @@ typedef struct {
     InfraredRemote* ir_remote_buffer;
     InfraredWorker* ir_worker;
     bool ir_is_otg_enabled; /**< Whether OTG power (external 5V) is enabled for IR. */
-    FuriHalInfraredTxPin ir_tx_pin; 
+    uint32_t ir_tx_pin; 
     SubGhzRemote* sg_remote_buffer;
     CrossRemote* cross_remote;
     uint32_t haptic;

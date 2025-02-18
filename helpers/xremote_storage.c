@@ -61,6 +61,10 @@ void xremote_save_settings(void* context) {
     flipper_format_write_uint32(fff_file, XREMOTE_SETTINGS_KEY_SG_TIMING, &app->sg_timing, 1);
     flipper_format_write_uint32(fff_file, XREMOTE_SETTINGS_KEY_LOOP_TRANSMIT, &app->loop_transmit, 1);
 
+    //IR GPIO Settings
+    flipper_format_write_uint32(fff_file, XREMOTE_SETTINGS_KEY_IR_TX_PIN, &app->ir_tx_pin, 1);
+    flipper_format_write_bool(fff_file, XREMOTE_SETTINGS_KEY_IR_USE_OTP, &app->ir_is_otg_enabled, 1);
+
     if(!flipper_format_rewind(fff_file)) {
         xremote_close_config_file(fff_file);
         FURI_LOG_E(TAG, "Rewind error");
@@ -114,6 +118,10 @@ void xremote_read_settings(void* context) {
     flipper_format_read_uint32(fff_file, XREMOTE_SETTINGS_KEY_IR_TIMING, &app->ir_timing, 1);
     flipper_format_read_uint32(fff_file, XREMOTE_SETTINGS_KEY_SG_TIMING, &app->sg_timing, 1);
     flipper_format_read_uint32(fff_file, XREMOTE_SETTINGS_KEY_LOOP_TRANSMIT, &app->loop_transmit, 1);
+
+    // IR GPIO Settings
+    flipper_format_read_uint32(fff_file, XREMOTE_SETTINGS_KEY_IR_TX_PIN, &app->ir_tx_pin, 1);
+    flipper_format_read_bool(fff_file, XREMOTE_SETTINGS_KEY_IR_USE_OTP, &app->ir_is_otg_enabled, 1);
 
     flipper_format_rewind(fff_file);
 
