@@ -191,10 +191,38 @@ void xremote_text_input_callback(void* context) {
     view_dispatcher_send_custom_event(app->view_dispatcher, XRemoteCustomEventTextInput);
 }
 
+void xremote_ir_enable_otg(XRemote* app, bool enable) {
+    if(enable) {
+        furi_hal_power_enable_otg();
+    } else {
+        furi_hal_power_disable_otg();
+    }
+    app->ir_is_otg_enabled = enable;
+}
+
+void xremote_ir_set_tx_pin(XRemote* app) {
+    if(app->ir_tx_pin < FuriHalInfraredTxPinMax) {
+        furi_hal_infrared_set_tx_output(app->ir_tx_pin);
+    } else {
+        FuriHalInfraredTxPin tx_pin_detected = furi_hal_infrared_detect_tx_output();
+        furi_hal_infrared_set_tx_output(tx_pin_detected);
+        if(tx_pin_detected != FuriHalInfraredTxPinInternal) {
+            xremote_ir_enable_otg(app, true);
+        }
+    }
+}
+
+static void xremote_ir_load_settings(XRemote* app) {
+    xremote_ir_set_tx_pin(app);
+    if(app->ir_tx_pin < FuriHalInfraredTxPinMax) {
+        xremote_ir_enable_otg(app, app->ir_is_otg_enabled);
+    }
+}
+
 int32_t xremote_app(void* p) {
     UNUSED(p);
     XRemote* app = xremote_app_alloc();
-
+    
     view_dispatcher_attach_to_gui(app->view_dispatcher, app->gui, ViewDispatcherTypeFullscreen);
 
     //scene_manager_next_scene(app->scene_manager, XRemoteSceneInfoscreen); //Start with start screen
@@ -202,6 +230,8 @@ int32_t xremote_app(void* p) {
         app->scene_manager, XRemoteSceneMenu); //if you want to directly start with Menu
 
     furi_hal_power_suppress_charge_enter();
+    xremote_ir_load_settings(app);
+
 
     Storage* storage = furi_record_open(RECORD_STORAGE);
     storage_common_mkdir(storage, XREMOTE_APP_FOLDER);
@@ -210,8 +240,8 @@ int32_t xremote_app(void* p) {
     view_dispatcher_run(app->view_dispatcher);
 
     xremote_save_settings(app);
-
     furi_hal_power_suppress_charge_exit();
+    xremote_ir_enable_otg(app, false);
     xremote_app_free(app);
 
     return 0;

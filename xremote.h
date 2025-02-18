@@ -36,6 +36,8 @@ typedef struct {
     XRemotePauseSet* xremote_pause_set;
     InfraredRemote* ir_remote_buffer;
     InfraredWorker* ir_worker;
+    bool ir_is_otg_enabled; /**< Whether OTG power (external 5V) is enabled for IR. */
+    uint32_t ir_tx_pin; 
     SubGhzRemote* sg_remote_buffer;
     CrossRemote* cross_remote;
     uint32_t haptic;
@@ -99,3 +101,5 @@ typedef enum {
 
 void xremote_popup_closed_callback(void* context);
 void xremote_text_input_callback(void* context);
+void xremote_ir_enable_otg(XRemote* app, bool enable);
+void xremote_ir_set_tx_pin(XRemote* app);
