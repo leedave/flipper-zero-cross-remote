@@ -30,6 +30,7 @@ Wouldn't it be nicer to simply click one button and let everything happen? This 
 - Add pauses, becaue target systems are not always fast enough for multiple commands<br>
 - Run file containing chained IR & SubGhz commands<br>
 - Loop Transmissions until quit
+- Pin to Favorites menu (if supported by firmware)
 
 ### Settings
 - LED FX, allow the LED to blink
@@ -54,6 +55,11 @@ Then run the command:
 .\fbt launch_app APPSRC=applications_user/xremote
  ```
 The application will be compiled and copied onto your device. 
+
+## Pin to Favorites feature
+This feature is only available in custom firmwares that support it or if you modify the owf to support the .xr file types.
+
+From the start screen on flipper press down to enter the favorites menu. Navigate left and right until you hit the tab "browser". From there navigate into the folder apps_data/xremote and select the command chain you want to add to your favorites. Select "Pin" from the context menu and your command chain will be available in the favorites menu. 
 
 ## Thank you notes
 - [Willy-JL](https://github.com/Willy-JL) for code contributions and distributing in Momentum Firmware

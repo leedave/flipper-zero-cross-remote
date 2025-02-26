@@ -13,6 +13,7 @@ This app combines your IR and SubGhz commands into a playlist that can be run wi
 - Configure duration of IR Signals
 - Configure default duration of Encoded SubGhz Signals
 - Loop Transmissions until quit
+- Pin to Favorites menu (if supported by Firmware)
 
 ## What good is this?
 

@@ -1,3 +1,6 @@
+## 3.3
+- Added support for Favorites menu. 
+
 ## 3.2
 - Added support for external IR GPIO boards, tested on IR Blaster & Masta-Blasta. 
 

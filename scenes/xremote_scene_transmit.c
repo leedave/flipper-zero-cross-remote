@@ -117,7 +117,12 @@ void xremote_scene_transmit_send_signal(void* context, CrossRemoteItem* item) {
 
 static void xremote_scene_transmit_end_scene(XRemote* app) {
     xremote_scene_ir_notification_message(app, InfraredNotificationMessageBlinkStop);
-    scene_manager_previous_scene(app->scene_manager);
+    if (app->loadFavorite) {
+        scene_manager_stop(app->scene_manager);
+        view_dispatcher_stop(app->view_dispatcher);
+    } else {
+        scene_manager_previous_scene(app->scene_manager);
+    }
 }
 
 static void xremote_scene_transmit_run_single_transmit(XRemote* app) {
