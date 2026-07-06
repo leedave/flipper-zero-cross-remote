@@ -191,6 +191,12 @@ void xremote_scene_transmit_on_enter(void* context) {
     XRemote* app = context;
     app->transmit_item = 0;
     app->pause_active = false;
+    app->stop_transmit = false;
+    app->transmitting = false;
+    xremote_cross_remote_set_transmitting(app->cross_remote, XRemoteTransmittingIdle);
+    xremote_transmit_model_set_type(app->xremote_transmit, XRemoteRemoteItemTypeInfrared);
+    xremote_transmit_model_set_name(app->xremote_transmit, "");
+    xremote_transmit_model_set_remaining(app->xremote_transmit, 0);
     xremote_transmit_set_callback(app->xremote_transmit, xremote_scene_transmit_callback, app);
 
     // Backlight is left to its normal auto-dim behaviour: the pause is now
