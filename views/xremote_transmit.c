@@ -87,11 +87,11 @@ void xremote_transmit_draw_pause(Canvas* canvas, XRemoteTransmitModel* model) {
     char countdown[24];
     snprintf(countdown, sizeof(countdown), "%02d:%02d", model->remaining / 60, model->remaining % 60);
     canvas_set_color(canvas, ColorWhite);
-    canvas_draw_box(canvas, 70, 36, 52, 16);
+    canvas_draw_box(canvas, 76, 34, 52, 16);
     canvas_set_color(canvas, ColorBlack);
-    canvas_draw_frame(canvas, 70, 36, 52, 16);
+    canvas_draw_frame(canvas, 76, 34, 52, 16);
     canvas_set_font(canvas, FontPrimary);
-    canvas_draw_str_aligned(canvas, 96, 44, AlignCenter, AlignCenter, countdown);
+    canvas_draw_str_aligned(canvas, 104, 42, AlignCenter, AlignCenter, countdown);
 
     if (model->time == 0) {
         canvas_draw_icon(canvas, 9, 28, &I_pause_ani_1_22x23);
