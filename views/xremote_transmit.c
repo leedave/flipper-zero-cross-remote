@@ -133,6 +133,7 @@ void xremote_transmit_draw(Canvas* canvas, XRemoteTransmitModel* model) {
     if (model->time > 2) {
         model->time = 0;
     }
+    canvas_set_font(canvas, FontSecondary);
     elements_button_right(canvas, "exit");
 }
 
