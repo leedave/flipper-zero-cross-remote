@@ -37,7 +37,7 @@ typedef struct {
     InfraredRemote* ir_remote_buffer;
     InfraredWorker* ir_worker;
     bool ir_is_otg_enabled; /**< Whether OTG power (external 5V) is enabled for IR. */
-    uint32_t ir_tx_pin; 
+    uint32_t ir_tx_pin;
     SubGhzRemote* sg_remote_buffer;
     CrossRemote* cross_remote;
     uint32_t haptic;
@@ -46,6 +46,7 @@ typedef struct {
     uint32_t save_settings;
     uint32_t loop_transmit;
     uint32_t edit_item;
+    bool pause_edit_mode; // true while XRemoteScenePauseSet edits an existing Pause item's timing
     uint32_t ir_timing;
     char* ir_timing_char;
     uint32_t sg_timing;

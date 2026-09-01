@@ -54,6 +54,7 @@ XRemote* xremote_app_alloc() {
     app->loop_transmit = 0;
     app->transmit_item = 0;
     app->loadFavorite = false;
+    app->pause_edit_mode = false;
 
     // Load configs
     xremote_read_settings(app);
@@ -175,7 +176,7 @@ void xremote_app_free(XRemote* app) {
 
     app->gui = NULL;
     app->notification = NULL;
-    
+
     //Remove whatever is left
     free(app);
 }
@@ -222,7 +223,7 @@ static void xremote_ir_load_settings(XRemote* app) {
 
 int32_t xremote_app(void* p) {
     XRemote* app = xremote_app_alloc();
-    
+
     view_dispatcher_attach_to_gui(app->view_dispatcher, app->gui, ViewDispatcherTypeFullscreen);
 
     furi_hal_power_suppress_charge_enter();
