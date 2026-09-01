@@ -13,6 +13,7 @@ const char* xremote_cross_remote_get_name(CrossRemote* remote);
 void xremote_cross_remote_set_transmitting(CrossRemote* remote, int status);
 int xremote_cross_remote_get_transmitting(CrossRemote* remote);
 bool xremote_cross_remote_add_pause(CrossRemote* remote, int time);
+void xremote_cross_remote_set_pause_time(CrossRemote* remote, size_t index, int time);
 bool xremote_cross_remote_add_ir_item(
     CrossRemote* remote,
     const char* name,
