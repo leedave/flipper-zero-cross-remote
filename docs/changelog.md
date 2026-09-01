@@ -1,3 +1,6 @@
+## 3.5
+- Allow re-editing of pause timers (Thanks to NickMoebius)
+
 ## 3.4
 - Added contributed feature for an improved pause timer (Thanks to jxc)
 
