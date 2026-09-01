@@ -151,6 +151,24 @@ void xremote_cross_remote_remove_item(CrossRemote* remote, size_t index) {
     CrossRemoteItemArray_erase(remote->items, index);
 }
 
+static void xremote_cross_remote_swap_items(CrossRemote* remote, size_t index_a, size_t index_b) {
+    CrossRemoteItem** a = CrossRemoteItemArray_get(remote->items, index_a);
+    CrossRemoteItem** b = CrossRemoteItemArray_get(remote->items, index_b);
+    CrossRemoteItem* tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+void xremote_cross_remote_move_item_up(CrossRemote* remote, size_t index) {
+    if(index == 0 || index >= CrossRemoteItemArray_size(remote->items)) return;
+    xremote_cross_remote_swap_items(remote, index, index - 1);
+}
+
+void xremote_cross_remote_move_item_down(CrossRemote* remote, size_t index) {
+    if(index + 1 >= CrossRemoteItemArray_size(remote->items)) return;
+    xremote_cross_remote_swap_items(remote, index, index + 1);
+}
+
 void xremote_cross_remote_rename_item(CrossRemote* remote, size_t index, const char* name) {
     CrossRemoteItem* item = xremote_cross_remote_get_item(remote, index);
     xremote_cross_remote_item_set_name(item, name);
