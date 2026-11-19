@@ -14,12 +14,6 @@ bool xremote_scene_pause_set_on_event(void* context, SceneManagerEvent event) {
 
     if(event.type == SceneManagerEventTypeCustom) {
         switch(event.event) {
-        case XRemoteCustomEventInfoScreenLeft:
-        case XRemoteCustomEventInfoScreenRight:
-            break;
-        case XRemoteCustomEventInfoScreenUp:
-        case XRemoteCustomEventInfoScreenDown:
-            break;
         case XRemoteCustomEventInfoScreenOk:
             scene_manager_next_scene(app->scene_manager, XRemoteSceneMenu);
             consumed = true;
@@ -46,6 +40,8 @@ bool xremote_scene_pause_set_on_event(void* context, SceneManagerEvent event) {
             consumed = true;
             break;
         }
+    default:
+        break;
     }
     return consumed;
 }
