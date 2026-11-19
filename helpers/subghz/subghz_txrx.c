@@ -80,7 +80,7 @@ SubGhzTxRx* subghz_txrx_alloc(void) {
 
 void subghz_txrx_free(SubGhzTxRx* instance) {
     furi_assert(instance);
-    
+
     if(instance->radio_device_type != SubGhzRadioDeviceTypeInternal) {
         subghz_txrx_radio_device_power_off(instance);
         subghz_devices_end(instance->radio_device);

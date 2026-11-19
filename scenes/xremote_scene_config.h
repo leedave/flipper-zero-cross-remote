@@ -1,10 +1,12 @@
-ADD_SCENE(xremote, infoscreen, Infoscreen)
+ADD_SCENE(xremote, infoscreen, InfoScreen)
 ADD_SCENE(xremote, menu, Menu)
 ADD_SCENE(xremote, create, Create)
 ADD_SCENE(xremote, create_add, CreateAdd)
 ADD_SCENE(xremote, edit_item, EditItem)
 ADD_SCENE(xremote, settings, Settings)
+#ifdef WIP_FORM
 ADD_SCENE(xremote, wip, Wip)
+#endif
 ADD_SCENE(xremote, ir_list, IrList)
 ADD_SCENE(xremote, xr_list, XrList)
 ADD_SCENE(xremote, xr_list_edit, XrListEdit)

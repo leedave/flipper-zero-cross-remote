@@ -9,7 +9,7 @@ struct CrossRemote {
     int transmitting;
 };
 
-static void xremote_cross_remote_clear_items(CrossRemote* remote) {
+void xremote_cross_remote_clear_items(CrossRemote* remote) {
     CrossRemoteItemArray_it_t it;
     for(CrossRemoteItemArray_it(it, remote->items); !CrossRemoteItemArray_end_p(it);
         CrossRemoteItemArray_next(it)) {
@@ -73,7 +73,7 @@ void xremote_cross_remote_set_transmitting(CrossRemote* remote, int status) {
     remote->transmitting = status;
 }
 
-int xremote_cross_remote_get_transmitting(CrossRemote* remote) {
+int xremote_cross_remote_get_transmitting(const CrossRemote* remote) {
     return remote->transmitting;
 }
 
@@ -138,7 +138,7 @@ bool xremote_cross_remote_add_subghz(CrossRemote* remote, SubGhzRemote* subghz) 
     return true;
 }
 
-size_t xremote_cross_remote_get_item_count(CrossRemote* remote) {
+size_t xremote_cross_remote_get_item_count(const CrossRemote* remote) {
     return CrossRemoteItemArray_size(remote->items);
 }
 
@@ -148,6 +148,9 @@ CrossRemoteItem* xremote_cross_remote_get_item(CrossRemote* remote, size_t index
 }
 
 void xremote_cross_remote_remove_item(CrossRemote* remote, size_t index) {
+    furi_assert(index < CrossRemoteItemArray_size(remote->items));
+    CrossRemoteItem* item = *CrossRemoteItemArray_get(remote->items, index);
+    xremote_cross_remote_item_free(item);
     CrossRemoteItemArray_erase(remote->items, index);
 }
 

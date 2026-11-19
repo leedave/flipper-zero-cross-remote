@@ -32,29 +32,16 @@ void xremote_scene_create_add_on_enter(void* context) {
     ButtonMenu* button_menu = app->button_menu_create_add;
     SceneManager* scene_manager = app->scene_manager;
 
-    button_menu_add_item(
-        button_menu,
-        "Infrared",
-        ButtonIndexIr,
-        xremote_create_add_callback,
-        ButtonMenuItemTypeCommon,
-        context);
+#define ADD_BUTTON(text, id) \
+    button_menu_add_item(    \
+        button_menu, text, id, xremote_create_add_callback, ButtonMenuItemTypeCommon, context)
 
-    button_menu_add_item(
-        button_menu,
-        "SubGhz",
-        ButtonIndexSubghz,
-        xremote_create_add_callback,
-        ButtonMenuItemTypeCommon,
-        context);
+    ADD_BUTTON("Infrared", ButtonIndexIr);
 
-    button_menu_add_item(
-        button_menu,
-        "Pause",
-        ButtonIndexPause,
-        xremote_create_add_callback,
-        ButtonMenuItemTypeCommon,
-        context);
+    ADD_BUTTON("SubGhz", ButtonIndexSubghz);
+
+    ADD_BUTTON("Pause", ButtonIndexPause);
+#undef ADD_BUTTON
 
     button_menu_set_header(button_menu, "Choose Type");
     const int16_t button_index =

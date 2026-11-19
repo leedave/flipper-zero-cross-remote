@@ -2,11 +2,6 @@
 
 #define TAG "Xremote"
 
-struct SubGhzRemote {
-    FuriString* name;
-    FuriString* filename;
-};
-
 const char* xremote_sg_remote_get_name(SubGhzRemote* remote) {
     return furi_string_get_cstr(remote->name);
 }

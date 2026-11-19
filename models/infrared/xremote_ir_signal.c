@@ -9,7 +9,7 @@ static void xremote_ir_signal_clear_timings(InfraredSignal* signal) {
     }
 }
 
-static bool xremote_ir_signal_is_message_valid(InfraredMessage* message) {
+static bool xremote_ir_signal_is_message_valid(const InfraredMessage* message) {
     if(!infrared_is_protocol_valid(message->protocol)) {
         FURI_LOG_E(TAG, "Unknown protocol");
         return false;
@@ -42,7 +42,7 @@ static bool xremote_ir_signal_is_message_valid(InfraredMessage* message) {
     return true;
 }
 
-static bool xremote_ir_signal_is_raw_valid(InfraredRawSignal* raw) {
+static bool xremote_ir_signal_is_raw_valid(const InfraredRawSignal* raw) {
     if((raw->frequency > INFRARED_MAX_FREQUENCY) || (raw->frequency < INFRARED_MIN_FREQUENCY)) {
         FURI_LOG_E(
             TAG,
@@ -127,11 +127,11 @@ void xremote_ir_signal_free(InfraredSignal* signal) {
     free(signal);
 }
 
-bool xremote_ir_signal_is_raw(InfraredSignal* signal) {
+bool xremote_ir_signal_is_raw(const InfraredSignal* signal) {
     return signal->is_raw;
 }
 
-bool xremote_ir_signal_is_valid(InfraredSignal* signal) {
+bool xremote_ir_signal_is_valid(const InfraredSignal* signal) {
     return signal->is_raw ? xremote_ir_signal_is_raw_valid(&signal->payload.raw) :
                             xremote_ir_signal_is_message_valid(&signal->payload.message);
 }
@@ -164,6 +164,7 @@ void xremote_ir_signal_set_raw_signal(
     signal->payload.raw.timings = malloc(timings_size * sizeof(uint32_t));
     memcpy(signal->payload.raw.timings, timings, timings_size * sizeof(uint32_t));
 }
+
 InfraredRawSignal* xremote_ir_signal_get_raw_signal(InfraredSignal* signal) {
     furi_assert(signal->is_raw);
     return &signal->payload.raw;

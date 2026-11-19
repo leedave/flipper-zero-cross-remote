@@ -9,45 +9,26 @@ enum SubmenuIndexEdit {
     SubmenuIndexMoveDown,
 };
 
-void xremote_scene_edit_item_submenu_callback(void* context, uint32_t index) {
-    XRemote* app = context;
-    view_dispatcher_send_custom_event(app->view_dispatcher, index);
-}
-
 void xremote_scene_edit_item_on_enter(void* context) {
     XRemote* app = context;
-    submenu_add_item(
-        app->editmenu, "Rename", SubmenuIndexRename, xremote_scene_edit_item_submenu_callback, app);
+
+#define ADD_SUBMENU(text, id) \
+    submenu_add_item(app->editmenu, text, id, xremote_generic_submenu_callback, app);
+    ADD_SUBMENU("Rename", SubmenuIndexRename);
 
     int16_t item_type = xremote_cross_remote_get_item_type(app->cross_remote, app->edit_item);
     if(item_type == XRemoteRemoteItemTypeInfrared || item_type == XRemoteRemoteItemTypePause) {
-        submenu_add_item(
-            app->editmenu,
-            "Set Timing",
-            SubmenuIndexTiming,
-            xremote_scene_edit_item_submenu_callback,
-            app);
+        ADD_SUBMENU("Set Timing", SubmenuIndexTiming);
     }
 
-    submenu_add_item(
-        app->editmenu, "Delete", SubmenuIndexDelete, xremote_scene_edit_item_submenu_callback, app);
+    ADD_SUBMENU("Delete", SubmenuIndexDelete);
 
     size_t item_count = xremote_cross_remote_get_item_count(app->cross_remote);
     if(app->edit_item > 0) {
-        submenu_add_item(
-            app->editmenu,
-            "Move Up",
-            SubmenuIndexMoveUp,
-            xremote_scene_edit_item_submenu_callback,
-            app);
+        ADD_SUBMENU("Move Up", SubmenuIndexMoveUp);
     }
     if(app->edit_item + 1 < item_count) {
-        submenu_add_item(
-            app->editmenu,
-            "Move Down",
-            SubmenuIndexMoveDown,
-            xremote_scene_edit_item_submenu_callback,
-            app);
+        ADD_SUBMENU("Move Down", SubmenuIndexMoveDown);
     }
 
     submenu_set_selected_item(

@@ -1,6 +1,9 @@
 #pragma once
 
+//#define DEBUG_LOG
+
 #include "scenes/xremote_scene.h"
+#include "views/generic_view.h"
 #include "views/xremote_infoscreen.h"
 #include "views/xremote_transmit.h"
 #include "views/xremote_pause_set.h"
@@ -26,14 +29,16 @@ typedef struct {
     ButtonMenu* button_menu_create_add;
     ButtonMenu* button_menu_ir;
     TextInput* text_input;
+#ifdef WIP_FORM
     Popup* popup;
+#endif
     Loading* loading;
     ViewStack* view_stack;
     SceneManager* scene_manager;
     VariableItemList* variable_item_list;
-    XRemoteInfoscreen* xremote_infoscreen;
-    XRemoteTransmit* xremote_transmit;
-    XRemotePauseSet* xremote_pause_set;
+    XRemoteViewInstance* xremote_infoscreen;
+    XRemoteViewInstance* xremote_transmit;
+    XRemoteViewInstance* xremote_pause_set;
     InfraredRemote* ir_remote_buffer;
     InfraredWorker* ir_worker;
     bool ir_is_otg_enabled; /**< Whether OTG power (external 5V) is enabled for IR. */
@@ -63,19 +68,21 @@ typedef struct {
 } XRemote;
 
 typedef enum {
-    XRemoteViewIdInfoscreen,
     XRemoteViewIdMenu,
     XRemoteViewIdEditItem,
     XRemoteViewIdCreate,
     XRemoteViewIdCreateAdd,
     XRemoteViewIdSettings,
+#ifdef WIP_FORM
     XRemoteViewIdWip,
+#endif
     XRemoteViewIdIrRemote,
     XRemoteViewIdStack,
     XRemoteViewIdTextInput,
     XRemoteViewIdNumberInput,
     XRemoteViewIdTransmit,
     XRemoteViewIdPauseSet,
+    XRemoteViewIdInfoScreen,
 } XRemoteViewId;
 
 typedef enum {
@@ -103,7 +110,15 @@ typedef enum {
     XRemoteSettingsOn,
 } XRemoteSettingsStoreState;
 
+#ifdef DEBUG_LOG
+void xremote_debug_heap();
+#endif
 void xremote_popup_closed_callback(void* context);
-void xremote_text_input_callback(void* context);
 void xremote_ir_enable_otg(XRemote* app, bool enable);
 void xremote_ir_set_tx_pin(XRemote* app);
+
+void xremote_text_input_callback(void* context);
+
+void xremote_generic_scene_callback(XRemoteCustomEvent event, void* context);
+
+void xremote_generic_submenu_callback(void* context, uint32_t index);

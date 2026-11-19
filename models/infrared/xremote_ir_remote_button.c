@@ -24,7 +24,7 @@ void xremote_ir_remote_button_set_name(InfraredRemoteButton* button, const char*
     furi_string_set(button->name, name);
 }
 
-const char* xremote_ir_remote_button_get_name(InfraredRemoteButton* button) {
+const char* xremote_ir_remote_button_get_name(const InfraredRemoteButton* button) {
     return furi_string_get_cstr(button->name);
 }
 

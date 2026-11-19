@@ -1,16 +1,10 @@
 #include "../xremote.h"
 #include "../views/xremote_pause_set.h"
 
-void xremote_scene_pause_set_callback(XRemoteCustomEvent event, void* context) {
-    furi_assert(context);
-    XRemote* app = context;
-    view_dispatcher_send_custom_event(app->view_dispatcher, event);
-}
-
 void xremote_scene_pause_set_on_enter(void* context) {
     furi_assert(context);
     XRemote* app = context;
-    xremote_pause_set_set_callback(app->xremote_pause_set, xremote_scene_pause_set_callback, app);
+    xremote_view_set_callback(app->xremote_pause_set, xremote_generic_scene_callback, app);
     view_dispatcher_switch_to_view(app->view_dispatcher, XRemoteViewIdPauseSet);
 }
 
@@ -20,13 +14,13 @@ bool xremote_scene_pause_set_on_event(void* context, SceneManagerEvent event) {
 
     if(event.type == SceneManagerEventTypeCustom) {
         switch(event.event) {
-        case XRemoteCustomEventInfoscreenLeft:
-        case XRemoteCustomEventInfoscreenRight:
+        case XRemoteCustomEventInfoScreenLeft:
+        case XRemoteCustomEventInfoScreenRight:
             break;
-        case XRemoteCustomEventInfoscreenUp:
-        case XRemoteCustomEventInfoscreenDown:
+        case XRemoteCustomEventInfoScreenUp:
+        case XRemoteCustomEventInfoScreenDown:
             break;
-        case XRemoteCustomEventInfoscreenOk:
+        case XRemoteCustomEventInfoScreenOk:
             scene_manager_next_scene(app->scene_manager, XRemoteSceneMenu);
             consumed = true;
             break;

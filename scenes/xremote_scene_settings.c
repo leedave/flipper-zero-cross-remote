@@ -100,13 +100,8 @@ static void xremote_scene_settings_set_sg_timing(VariableItem* item) {
     app->sg_timing = (index * 100);
 }
 
-void xremote_scene_settings_submenu_callback(void* context, uint32_t index) {
-    XRemote* app = context;
-    view_dispatcher_send_custom_event(app->view_dispatcher, index);
-}
-
 void xremote_scene_settings_init(void* context) {
-    XRemote* app = context;    
+    XRemote* app = context;
     VariableItem* item;
     uint8_t value_index;
 
@@ -133,15 +128,15 @@ void xremote_scene_settings_init(void* context) {
 
     // Infrared GPIO Board
     item = variable_item_list_add(
-        app->variable_item_list, 
-        "External IR", 
-        COUNT_OF(infrared_pin_text), 
-        xremote_scene_settings_set_ir_pin, 
+        app->variable_item_list,
+        "External IR",
+        COUNT_OF(infrared_pin_text),
+        xremote_scene_settings_set_ir_pin,
         app);
     value_index = app->ir_tx_pin;
     variable_item_set_current_value_index(item, value_index);
     variable_item_set_current_value_text(item, infrared_pin_text[value_index]);
-    
+
     // Infrared GPIO 5V
     item = variable_item_list_add(
         app->variable_item_list,
@@ -149,7 +144,7 @@ void xremote_scene_settings_init(void* context) {
         COUNT_OF(infrared_otg_text),
         xremote_scene_settings_set_ir_is_otg_enabled,
         app);
-    
+
     if(app->ir_tx_pin < FuriHalInfraredTxPinMax) {
         value_index = app->ir_is_otg_enabled;
         variable_item_set_current_value_index(item, value_index);
@@ -174,7 +169,7 @@ void xremote_scene_settings_init(void* context) {
 
     variable_item_set_current_value_index(item, (uint8_t)(app->sg_timing / 100));
     snprintf(app->sg_timing_char, 20, "%lu", app->sg_timing);
-    variable_item_set_current_value_text(item, app->sg_timing_char);    
+    variable_item_set_current_value_text(item, app->sg_timing_char);
 }
 
 void xremote_scene_settings_on_enter(void* context) {
@@ -188,8 +183,8 @@ bool xremote_scene_settings_on_event(void* context, SceneManagerEvent event) {
     bool consumed = false;
     if(event.type == SceneManagerEventTypeCustom) {
         const uint16_t custom_event_type = xremote_custom_menu_event_get_type(event.event);
-        
-        if (custom_event_type == XRemoteCustomEventTypeIrGpioPinChanged) {
+
+        if(custom_event_type == XRemoteCustomEventTypeIrGpioPinChanged) {
             variable_item_list_reset(app->variable_item_list);
             xremote_scene_settings_init(app);
             xremote_ir_set_tx_pin(app);

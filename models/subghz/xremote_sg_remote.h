@@ -10,7 +10,10 @@
 #include <flipper_format/flipper_format.h>
 #include <flipper_format/flipper_format_i.h>
 
-typedef struct SubGhzRemote SubGhzRemote;
+typedef struct {
+    FuriString* name;
+    FuriString* filename;
+} SubGhzRemote;
 
 const char* xremote_sg_remote_get_name(SubGhzRemote* remote);
 const char* xremote_sg_remote_get_filename(SubGhzRemote* remote);

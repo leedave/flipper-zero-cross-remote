@@ -6,39 +6,25 @@ enum SubmenuIndex {
     SubmenuIndexLoad,
     SubmenuIndexEdit,
     SubmenuIndexSettings,
-    SubmenuIndexInfoscreen,
+    SubmenuIndexInfoScreen,
 };
-
-void xremote_scene_menu_submenu_callback(void* context, uint32_t index) {
-    XRemote* app = context;
-    view_dispatcher_send_custom_event(app->view_dispatcher, index);
-}
 
 void xremote_scene_menu_on_enter(void* context) {
     XRemote* app = context;
 
-    submenu_add_item(
-        app->submenu,
-        "New Command Chain",
-        SubmenuIndexCreate,
-        xremote_scene_menu_submenu_callback,
-        app);
-    submenu_add_item(
-        app->submenu,
-        "Run Saved Command",
-        SubmenuIndexLoad,
-        xremote_scene_menu_submenu_callback,
-        app);
-    submenu_add_item(
-        app->submenu,
-        "Edit / Delete Command",
-        SubmenuIndexEdit,
-        xremote_scene_menu_submenu_callback,
-        app);
-    submenu_add_item(
-        app->submenu, "Settings", SubmenuIndexSettings, xremote_scene_menu_submenu_callback, app);
-    submenu_add_item(
-        app->submenu, "App Info", SubmenuIndexInfoscreen, xremote_scene_menu_submenu_callback, app);
+    xremote_cross_remote_clear_items(app->cross_remote);
+    xremote_ir_remote_clear_buttons(app->ir_remote_buffer);
+
+#define ADD_SUBMENU(text, id) \
+    submenu_add_item(app->submenu, text, id, xremote_generic_submenu_callback, app);
+
+    ADD_SUBMENU("New Command Chain", SubmenuIndexCreate);
+    ADD_SUBMENU("Run Saved Command", SubmenuIndexLoad);
+    ADD_SUBMENU("Edit / Delete Command", SubmenuIndexEdit);
+    ADD_SUBMENU("Settings", SubmenuIndexSettings);
+    ADD_SUBMENU("App Info", SubmenuIndexInfoScreen);
+
+#undef ADD_SUBMENU
 
     submenu_set_selected_item(
         app->submenu, scene_manager_get_scene_state(app->scene_manager, XRemoteSceneMenu));
@@ -68,10 +54,10 @@ bool xremote_scene_menu_on_event(void* context, SceneManagerEvent event) {
                 app->scene_manager, XRemoteSceneMenu, SubmenuIndexSettings);
             scene_manager_next_scene(app->scene_manager, XRemoteSceneSettings);
             return true;
-        } else if(event.event == SubmenuIndexInfoscreen) {
+        } else if(event.event == SubmenuIndexInfoScreen) {
             scene_manager_set_scene_state(
-                app->scene_manager, XRemoteSceneMenu, SubmenuIndexInfoscreen);
-            scene_manager_next_scene(app->scene_manager, XRemoteSceneInfoscreen);
+                app->scene_manager, XRemoteSceneMenu, SubmenuIndexInfoScreen);
+            scene_manager_next_scene(app->scene_manager, XRemoteSceneInfoScreen);
             return true;
         } else if(event.event == SubmenuIndexEdit) {
             scene_manager_set_scene_state(app->scene_manager, XRemoteSceneMenu, SubmenuIndexEdit);

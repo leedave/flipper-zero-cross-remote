@@ -14,12 +14,7 @@ void xremote_scene_save_remote_item_on_enter(void* context) {
     CrossRemoteItem* item = xremote_cross_remote_get_item(app->cross_remote, app->edit_item);
     strncpy(app->text_store[0], furi_string_get_cstr(item->name), enter_name_length);
     text_input_set_result_callback(
-        text_input,
-        xremote_text_input_callback,
-        context,
-        app->text_store[0],
-        enter_name_length,
-        false);
+        text_input, xremote_text_input_callback, app, app->text_store[0], enter_name_length, false);
 
     view_dispatcher_switch_to_view(app->view_dispatcher, XRemoteViewIdTextInput);
 }
@@ -40,6 +35,5 @@ bool xremote_scene_save_remote_item_on_event(void* context, SceneManagerEvent ev
 
 void xremote_scene_save_remote_item_on_exit(void* context) {
     XRemote* app = context;
-    size_t enter_name_length = XREMOTE_MAX_REMOTE_NAME_LENGTH;
-    strncpy(app->text_store[0], "", enter_name_length);
+    memset(app->text_store[0], 0, sizeof(app->text_store[0]));
 }

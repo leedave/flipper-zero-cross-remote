@@ -67,6 +67,8 @@ bool xremote_scene_ir_remote_on_event(void* context, SceneManagerEvent event) {
 
             xremote_cross_remote_add_ir_item(
                 app->cross_remote, button_name, signal, app->ir_timing);
+
+            xremote_ir_remote_clear_buttons(app->ir_remote_buffer);
             scene_manager_next_scene(app->scene_manager, XRemoteSceneCreate);
             consumed = true;
         }

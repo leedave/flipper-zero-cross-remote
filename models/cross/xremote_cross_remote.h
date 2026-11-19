@@ -11,7 +11,7 @@ void xremote_cross_remote_free(CrossRemote* cross_remote);
 bool xremote_cross_remote_load(CrossRemote* cross_remote, FuriString* path);
 const char* xremote_cross_remote_get_name(CrossRemote* remote);
 void xremote_cross_remote_set_transmitting(CrossRemote* remote, int status);
-int xremote_cross_remote_get_transmitting(CrossRemote* remote);
+int xremote_cross_remote_get_transmitting(const CrossRemote* remote);
 bool xremote_cross_remote_add_pause(CrossRemote* remote, int time);
 void xremote_cross_remote_set_pause_time(CrossRemote* remote, size_t index, int time);
 bool xremote_cross_remote_add_ir_item(
@@ -24,9 +24,11 @@ void xremote_cross_remote_remove_item(CrossRemote* remote, size_t index);
 void xremote_cross_remote_move_item_up(CrossRemote* remote, size_t index);
 void xremote_cross_remote_move_item_down(CrossRemote* remote, size_t index);
 void xremote_cross_remote_rename_item(CrossRemote* remote, size_t index, const char* name);
-size_t xremote_cross_remote_get_item_count(CrossRemote* remote);
+size_t xremote_cross_remote_get_item_count(const CrossRemote* remote);
 CrossRemoteItem* xremote_cross_remote_get_item(CrossRemote* remote, size_t index);
 int16_t xremote_cross_remote_get_item_type(CrossRemote* remote, size_t index);
 
 bool xremote_cross_remote_save_new(CrossRemote* remote, const char* name);
 bool xremote_cross_remote_delete(CrossRemote* remote);
+
+void xremote_cross_remote_clear_items(CrossRemote* remote);
