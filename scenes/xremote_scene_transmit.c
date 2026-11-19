@@ -72,7 +72,7 @@ void xremote_scene_transmit_send_ir_signal(XRemote* app, CrossRemoteItem* item) 
     xremote_scene_transmit_stop_ir_signal(app);
 }
 
-void xremote_scene_transmit_send_pause(XRemote* app, CrossRemoteItem* item) {
+void xremote_scene_transmit_send_pause(XRemote* app, const CrossRemoteItem* item) {
     // Non-blocking: arm a deadline and let the scene's 100ms tick count it down.
     // This keeps the event loop free so the app stays responsive (Back cancels
     // immediately) and can render a live countdown, even for a 60-minute pause.
@@ -103,7 +103,7 @@ static void xremote_scene_transmit_handle_pause_tick(XRemote* app) {
     }
 }
 
-void xremote_scene_transmit_send_subghz(XRemote* app, CrossRemoteItem* item) {
+void xremote_scene_transmit_send_subghz(XRemote* app, const CrossRemoteItem* item) {
     app->transmitting = true;
     xremote_scene_ir_notification_message(app, SubGhzNotificationMessageBlinkStartSend);
     if(furi_string_utf8_length(item->filename) < 3) {
@@ -139,9 +139,22 @@ void xremote_scene_transmit_send_signal(void* context, CrossRemoteItem* item) {
     }
 }
 
+static void xremote_scene_transmit_cleanup_subghz(XRemote* app) {
+    if(app->subghz && app->subghz->txrx) {
+        subghz_txrx_stop(app->subghz->txrx);
+        Stream* fff_stream =
+            flipper_format_get_raw_stream(subghz_txrx_get_fff_data(app->subghz->txrx));
+        if(fff_stream) {
+            stream_clean(fff_stream);
+        }
+    }
+}
+
 static void xremote_scene_transmit_end_scene(XRemote* app) {
     xremote_scene_ir_notification_message(app, InfraredNotificationMessageBlinkStop);
-    if (app->loadFavorite) {
+    xremote_scene_transmit_cleanup_subghz(app);
+    xremote_cross_remote_clear_items(app->cross_remote);
+    if(app->loadFavorite) {
         scene_manager_stop(app->scene_manager);
         view_dispatcher_stop(app->view_dispatcher);
     } else {
@@ -155,18 +168,18 @@ static void xremote_scene_transmit_run_single_transmit(XRemote* app) {
         xremote_scene_transmit_handle_pause_tick(app);
         return;
     }
-    if (xremote_cross_remote_get_transmitting(remote) == XRemoteTransmittingIdle) {
+    if(xremote_cross_remote_get_transmitting(remote) == XRemoteTransmittingIdle) {
         xremote_cross_remote_set_transmitting(remote, XRemoteTransmittingStart);
         CrossRemoteItem* item = xremote_cross_remote_get_item(remote, app->transmit_item);
         xremote_scene_transmit_send_signal(app, item);
-    } else if (xremote_cross_remote_get_transmitting(remote) == XRemoteTransmittingStopSubghz) {
+    } else if(xremote_cross_remote_get_transmitting(remote) == XRemoteTransmittingStopSubghz) {
         app->transmit_item++;
         app->state_notifications = SubGhzNotificationStateIDLE;
         app->transmitting = false;
         subghz_txrx_stop(app->subghz->txrx);
         xremote_scene_ir_notification_message(app, SubGhzNotificationMessageBlinkStop);
         xremote_cross_remote_set_transmitting(remote, XRemoteTransmittingIdle);
-    } else if (xremote_cross_remote_get_transmitting(remote) == XRemoteTransmittingStop) {
+    } else if(xremote_cross_remote_get_transmitting(remote) == XRemoteTransmittingStop) {
         app->transmit_item++;
         xremote_cross_remote_set_transmitting(remote, XRemoteTransmittingIdle);
     }
@@ -175,11 +188,11 @@ static void xremote_scene_transmit_run_single_transmit(XRemote* app) {
 static void xremote_scene_transmit_run_next_transmission(XRemote* app) {
     CrossRemote* remote = app->cross_remote;
     size_t item_count = xremote_cross_remote_get_item_count(remote);
-    if (app->transmit_item < item_count) {
+    if(app->transmit_item < item_count) {
         xremote_scene_transmit_run_single_transmit(app);
         return;
     }
-    if (app->loop_transmit && !app->stop_transmit) {
+    if(app->loop_transmit && !app->stop_transmit) {
         app->transmit_item = 0;
         return;
     }
@@ -197,7 +210,7 @@ void xremote_scene_transmit_on_enter(void* context) {
     xremote_transmit_model_set_type(app->xremote_transmit, XRemoteRemoteItemTypeInfrared);
     xremote_transmit_model_set_name(app->xremote_transmit, "");
     xremote_transmit_model_set_remaining(app->xremote_transmit, 0);
-    xremote_transmit_set_callback(app->xremote_transmit, xremote_scene_transmit_callback, app);
+    xremote_view_set_callback(app->xremote_transmit, xremote_scene_transmit_callback, app);
 
     // Backlight is left to its normal auto-dim behaviour: the pause is now
     // non-blocking and cancellable, so a dimmed screen is fine (any keypress
@@ -208,7 +221,7 @@ void xremote_scene_transmit_on_enter(void* context) {
 bool xremote_scene_transmit_on_event(void* context, SceneManagerEvent event) {
     XRemote* app = context;
     bool consumed = false;
-    
+
     if(event.type == SceneManagerEventTypeCustom) {
         FURI_LOG_D(TAG, "Custom Event");
         switch(event.event) {
@@ -222,10 +235,7 @@ bool xremote_scene_transmit_on_event(void* context, SceneManagerEvent event) {
         FURI_LOG_D(TAG, "Tick Event");
         xremote_scene_transmit_run_next_transmission(app);
         with_view_model(
-            xremote_transmit_get_view(app->xremote_transmit),
-            void* model,
-            { UNUSED(model); },
-            true);
+            xremote_view_get(app->xremote_transmit), void* model, { UNUSED(model); }, true);
         if(app->state_notifications == SubGhzNotificationStateTx && app->led == 1) {
             //blink for subghz
         }
@@ -243,4 +253,9 @@ void xremote_scene_transmit_on_exit(void* context) {
     app->transmitting = false;
     app->pause_active = false;
     app->state_notifications = SubGhzNotificationStateIDLE;
+
+    xremote_cross_remote_clear_items(app->cross_remote);
+    xremote_ir_remote_clear_buttons(app->ir_remote_buffer);
+
+    xremote_scene_transmit_cleanup_subghz(app);
 }

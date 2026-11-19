@@ -72,6 +72,7 @@ bool xremote_scene_create_on_event(void* context, SceneManagerEvent event) {
     bool consumed = false;
 
     if(event.type == SceneManagerEventTypeBack) {
+        xremote_cross_remote_clear_items(app->cross_remote);
         scene_manager_next_scene(app->scene_manager, XRemoteSceneMenu);
         consumed = true;
     } else if(event.type == SceneManagerEventTypeCustom) {

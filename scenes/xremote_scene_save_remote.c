@@ -28,12 +28,7 @@ void xremote_scene_save_remote_on_enter(void* context) {
     furi_string_free(folder_path);
 
     text_input_set_result_callback(
-        text_input,
-        xremote_text_input_callback,
-        context,
-        app->text_store[0],
-        enter_name_length,
-        false);
+        text_input, xremote_text_input_callback, app, app->text_store[0], enter_name_length, false);
 
     view_dispatcher_switch_to_view(app->view_dispatcher, XRemoteViewIdTextInput);
 }
@@ -50,6 +45,7 @@ bool xremote_scene_save_remote_on_event(void* context, SceneManagerEvent event) 
         success = xremote_cross_remote_save_new(remote, app->text_store[0]);
 
         if(success) {
+            xremote_cross_remote_clear_items(remote);
             scene_manager_next_scene(scene_manager, XRemoteSceneMenu);
         } else {
             scene_manager_search_and_switch_to_previous_scene(scene_manager, XRemoteSceneCreate);
@@ -66,8 +62,7 @@ void xremote_scene_save_remote_on_exit(void* context) {
     void* validator_context = text_input_get_validator_callback_context(text_input);
     text_input_set_validator(text_input, NULL, NULL);
 
-    size_t enter_name_length = XREMOTE_MAX_REMOTE_NAME_LENGTH;
-    strncpy(app->text_store[0], "", enter_name_length);
+    memset(app->text_store[0], 0, sizeof(app->text_store[0]));
     if(validator_context) {
         validator_is_file_free((ValidatorIsFile*)validator_context);
     }

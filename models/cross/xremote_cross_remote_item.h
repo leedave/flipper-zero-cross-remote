@@ -10,14 +10,14 @@ CrossRemoteItem* xremote_cross_remote_item_alloc();
 void xremote_cross_remote_item_free(CrossRemoteItem* item);
 
 void xremote_cross_remote_item_set_name(CrossRemoteItem* item, const char* name);
-const char* xremote_cross_remote_item_get_name(CrossRemoteItem* item);
+const char* xremote_cross_remote_item_get_name(const CrossRemoteItem* item);
 void xremote_cross_remote_item_set_filename(CrossRemoteItem* item, const char* filename);
-const char* xremote_cross_remote_item_get_filename(CrossRemoteItem* item);
+const char* xremote_cross_remote_item_get_filename(const CrossRemoteItem* item);
 
 void xremote_cross_remote_item_set_type(CrossRemoteItem* item, int type);
-int16_t xremote_cross_remote_item_get_type(CrossRemoteItem* item);
+int16_t xremote_cross_remote_item_get_type(const CrossRemoteItem* item);
 void xremote_cross_remote_item_set_time(CrossRemoteItem* item, uint32_t time);
-uint32_t xremote_cross_remote_item_get_time(CrossRemoteItem* item);
+uint32_t xremote_cross_remote_item_get_time(const CrossRemoteItem* item);
 
 InfraredSignal* xremote_cross_remote_item_get_ir_signal(CrossRemoteItem* item);
 void xremote_cross_remote_item_set_ir_signal(CrossRemoteItem* item, InfraredSignal* signal);
@@ -26,12 +26,12 @@ void xremote_cross_remote_item_set_sg_signal(CrossRemoteItem* item, SubGhzRemote
 
 bool xremote_cross_remote_item_pause_save(FlipperFormat* ff, uint32_t time, const char* name);
 bool xremote_cross_remote_item_ir_signal_save(
-    InfraredSignal* signal,
+    const InfraredSignal* signal,
     FlipperFormat* ff,
     const char* name,
     uint32_t time);
 bool xremote_cross_remote_item_sg_signal_save(
-    SubGhzRemote* remote,
+    const SubGhzRemote* remote,
     FlipperFormat* ff,
     const char* name,
     const char* filename);

@@ -22,12 +22,12 @@ typedef union {
 #pragma pack(pop)
 
 typedef enum {
-    XRemoteCustomEventInfoscreenUp,
-    XRemoteCustomEventInfoscreenDown,
-    XRemoteCustomEventInfoscreenLeft,
-    XRemoteCustomEventInfoscreenRight,
-    XRemoteCustomEventInfoscreenOk,
-    XRemoteCustomEventInfoscreenBack,
+    XRemoteCustomEventInfoScreenUp,
+    XRemoteCustomEventInfoScreenDown,
+    XRemoteCustomEventInfoScreenLeft,
+    XRemoteCustomEventInfoScreenRight,
+    XRemoteCustomEventInfoScreenOk,
+    XRemoteCustomEventInfoScreenBack,
 
     XRemoteCustomEventCreateUp,
     XRemoteCustomEventCreateDown,

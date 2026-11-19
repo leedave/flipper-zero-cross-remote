@@ -42,6 +42,8 @@
 #include "xremote_icons.h"
 #include "models/subghz/xremote_sg_remote.h"
 
+#define DEBUGLINE(line) FURI_LOG_D("", "%s:%zu", __func__, line);
+
 #define XREMOTE_APP_FOLDER EXT_PATH("apps_data/xremote")
 #define XREMOTE_DEFAULT_REMOTE_NAME "remote"
 #define XREMOTE_APP_EXTENSION ".xr"
@@ -107,6 +109,3 @@ struct CrossRemoteItem {
 
 typedef struct CrossRemote CrossRemote;
 typedef struct CrossRemoteItem CrossRemoteItem;
-
-typedef struct XRemoteTransmit XRemoteTransmit;
-typedef struct XRemotePauseSet XRemotePauseSet;

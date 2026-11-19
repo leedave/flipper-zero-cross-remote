@@ -6,26 +6,17 @@ enum SubmenuIndexEdit {
     SubmenuIndexDelete,
 };
 
-void xremote_scene_xr_list_edit_item_submenu_callback(void* context, uint32_t index) {
-    XRemote* app = context;
-    view_dispatcher_send_custom_event(app->view_dispatcher, index);
-}
-
 void xremote_scene_xr_list_edit_item_on_enter(void* context) {
     XRemote* app = context;
-    //submenu_add_item(app->editmenu, "Rename", SubmenuIndexRename, xremote_scene_xr_list_edit_item_submenu_callback, app);
-    submenu_add_item(
-        app->editmenu,
-        "Edit",
-        SubmenuIndexEdit,
-        xremote_scene_xr_list_edit_item_submenu_callback,
-        app);
-    submenu_add_item(
-        app->editmenu,
-        "Delete",
-        SubmenuIndexDelete,
-        xremote_scene_xr_list_edit_item_submenu_callback,
-        app);
+
+#define ADD_SUBMENU(text, id) \
+    submenu_add_item(app->editmenu, text, id, xremote_generic_submenu_callback, app);
+
+    //ADD_SUBMENU("Rename", SubmenuIndexRename);
+    ADD_SUBMENU("Edit", SubmenuIndexEdit);
+    ADD_SUBMENU("Delete", SubmenuIndexDelete);
+
+#undef ADD_SUBMENU
 
     submenu_set_selected_item(
         app->editmenu, scene_manager_get_scene_state(app->scene_manager, XRemoteSceneMenu));

@@ -1,10 +1,5 @@
+#include "../xremote.h"
 #include "xremote_pause_set.h"
-
-struct XRemotePauseSet {
-    View* view;
-    XRemotePauseSetCallback callback;
-    void* context;
-};
 
 typedef struct {
     int type;
@@ -28,19 +23,13 @@ static void xremote_pause_set_adjust(XRemotePauseSetModel* model, int dir, bool 
     int unit = (model->field == XREMOTE_PAUSE_FIELD_MINUTES) ? 60 : 1;
     int mult = fast ? XREMOTE_PAUSE_FAST_STEP : 1;
     int t = model->time + dir * unit * mult;
-    if(t < 0) t = 0;
-    if(t > XREMOTE_PAUSE_MAX_SECONDS) t = XREMOTE_PAUSE_MAX_SECONDS;
+    if(t < 0) {
+        t = 0;
+    }
+    if(t > XREMOTE_PAUSE_MAX_SECONDS) {
+        t = XREMOTE_PAUSE_MAX_SECONDS;
+    }
     model->time = t;
-}
-
-void xremote_pause_set_set_callback(
-    XRemotePauseSet* instance,
-    XRemotePauseSetCallback callback,
-    void* context) {
-    furi_assert(instance);
-    furi_assert(callback);
-    instance->callback = callback;
-    instance->context = context;
 }
 
 void xremote_pause_set_draw(Canvas* canvas, XRemotePauseSetModel* model) {
@@ -82,7 +71,7 @@ void xremote_pause_set_draw(Canvas* canvas, XRemotePauseSetModel* model) {
 
 bool xremote_pause_set_input(InputEvent* event, void* context) {
     furi_assert(context);
-    XRemotePauseSet* instance = context;
+    XRemoteViewInstance* instance = context;
 
     // Up/Down adjust the active field. A quick press (Short) steps by one unit;
     // holding the key (Repeat) accelerates so minute-level values dial in fast.
@@ -145,8 +134,8 @@ bool xremote_pause_set_input(InputEvent* event, void* context) {
     return true;
 }
 
-XRemotePauseSet* xremote_pause_set_alloc() {
-    XRemotePauseSet* instance = malloc(sizeof(XRemotePauseSet));
+XRemoteViewInstance* xremote_pause_set_alloc() {
+    XRemoteViewInstance* instance = malloc(sizeof(XRemoteViewInstance));
     instance->view = view_alloc();
     view_allocate_model(instance->view, ViewModelTypeLocking, sizeof(XRemotePauseSetModel));
     view_set_context(instance->view, instance);
@@ -165,7 +154,7 @@ XRemotePauseSet* xremote_pause_set_alloc() {
 
 void xremote_pause_set_enter(void* context) {
     furi_assert(context);
-    XRemotePauseSet* instance = (XRemotePauseSet*)context;
+    XRemoteViewInstance* instance = (XRemoteViewInstance*)context;
     XRemote* app = instance->context;
     with_view_model(
         instance->view,
@@ -180,18 +169,4 @@ void xremote_pause_set_enter(void* context) {
             }
         },
         true);
-}
-
-View* xremote_pause_set_get_view(XRemotePauseSet* instance) {
-    furi_assert(instance);
-    return instance->view;
-}
-
-void xremote_pause_set_free(XRemotePauseSet* instance) {
-    furi_assert(instance);
-
-    with_view_model(
-        instance->view, XRemotePauseSetModel * model, { UNUSED(model); }, true);
-    view_free(instance->view);
-    free(instance);
 }

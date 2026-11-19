@@ -2,14 +2,6 @@
 
 #define TAG "XremoteInfraredRemote"
 
-ARRAY_DEF(InfraredButtonArray, InfraredRemoteButton*, M_PTR_OPLIST);
-
-struct InfraredRemote {
-    InfraredButtonArray_t buttons;
-    FuriString* name;
-    FuriString* path;
-};
-
 InfraredRemote* xremote_ir_remote_alloc() {
     InfraredRemote* remote = malloc(sizeof(InfraredRemote));
     InfraredButtonArray_init(remote->buttons);
@@ -18,11 +10,11 @@ InfraredRemote* xremote_ir_remote_alloc() {
     return remote;
 }
 
-const char* xremote_ir_remote_get_name(InfraredRemote* remote) {
+const char* xremote_ir_remote_get_name(const InfraredRemote* remote) {
     return furi_string_get_cstr(remote->name);
 }
 
-static void xremote_ir_remote_clear_buttons(InfraredRemote* remote) {
+void xremote_ir_remote_clear_buttons(InfraredRemote* remote) {
     InfraredButtonArray_it_t it;
     for(InfraredButtonArray_it(it, remote->buttons); !InfraredButtonArray_end_p(it);
         InfraredButtonArray_next(it)) {
@@ -34,6 +26,7 @@ static void xremote_ir_remote_clear_buttons(InfraredRemote* remote) {
 void xremote_ir_remote_free(InfraredRemote* remote) {
     furi_string_free(remote->path);
     furi_string_free(remote->name);
+    xremote_ir_remote_clear_buttons(remote);
     free(remote);
 }
 

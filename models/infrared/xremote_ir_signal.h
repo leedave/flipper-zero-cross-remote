@@ -19,8 +19,8 @@ typedef struct {
 InfraredSignal* xremote_ir_signal_alloc();
 void xremote_ir_signal_free(InfraredSignal* signal);
 
-bool xremote_ir_signal_is_raw(InfraredSignal* signal);
-bool xremote_ir_signal_is_valid(InfraredSignal* signal);
+bool xremote_ir_signal_is_raw(const InfraredSignal* signal);
+bool xremote_ir_signal_is_valid(const InfraredSignal* signal);
 
 void xremote_ir_signal_set_signal(InfraredSignal* signal, const InfraredSignal* other);
 

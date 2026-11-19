@@ -1,5 +1,6 @@
 #include "../xremote.h"
 
+#ifdef WIP_FORM
 void xremote_scene_wip_on_enter(void* context) {
     furi_assert(context);
     XRemote* app = context;
@@ -36,3 +37,4 @@ void xremote_scene_wip_on_exit(void* context) {
     XRemote* app = context;
     UNUSED(app);
 }
+#endif
